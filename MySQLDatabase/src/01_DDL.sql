@@ -53,3 +53,39 @@ COMMENT = '회원 목록';
 ALTER TABLE `scott`.`memberlist` 
 ADD COLUMN `joindate` datetime NULL DEFAULT now(),
 CHANGE COLUMN `bpoint` `bpoint` INT NULL DEFAULT 0 ;
+
+
+-- 연습문제2
+-- 테이블 이름 : rentlist
+-- 필드 : rentdate(datetime, default now()), numseq(int, AI), booknum(int),
+-- 			membernum(int), discount(int)
+
+CREATE TABLE `scott`.`rentlist` (
+  `rentdate` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `numseq` INT NOT NULL AUTO_INCREMENT,
+  `booknum` INT NULL,
+  `membernum` INT NULL,
+  `discount` INT NULL DEFAULT 0,
+  PRIMARY KEY (`numseq`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4
+COMMENT = '대여 목록';
+
+-- 외래키1 : rentlist booknm은 booklist의 booknum을 참조
+-- 외래키2 : rentlist membernum은 memberlist의 membernum을 참조
+
+ALTER TABLE `scott`.`rentlist` 
+ADD INDEX `booknum_idx` (`booknum` ASC) VISIBLE,
+ADD INDEX `fk2_idx` (`membernum` ASC) VISIBLE;
+
+ALTER TABLE `scott`.`rentlist` 
+ADD CONSTRAINT `fk1`
+  FOREIGN KEY (`booknum`)
+  REFERENCES `scott`.`booklist` (`booknum`)
+  ON DELETE CASCADE
+  ON UPDATE CASCADE,
+ADD CONSTRAINT `fk2`
+  FOREIGN KEY (`membernum`)
+  REFERENCES `scott`.`memberlist` (`membernum`)
+  ON DELETE CASCADE
+  ON UPDATE CASCADE;
