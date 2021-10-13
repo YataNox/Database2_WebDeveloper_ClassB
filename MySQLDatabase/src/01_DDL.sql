@@ -14,7 +14,7 @@ select * from scott.booklist;
 
 -- AUTO_INCREMENT : 오라클의 sequence를 대신하는 자동 숫자 증가 옵션
 -- VARCHAR2는 없고, VARCHAR가 가변 길이 문자를 나타냅니다.
--- CONSTRAINT없이 제약 사항을 표시합ㄴ디ㅏ.
+-- CONSTRAINT없이 제약 사항을 표시합니다..
 -- 테이블 이름 앞에 스키마이름.을 반드시 붙여서 사용합니다.
 
 -- 자주 쓰는 자료형
