@@ -41,6 +41,7 @@ select * from scott.booklist;
 CREATE TABLE `scott`.`memberlist` (
   `membernum` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(30) NOT NULL,
+  `phone` VARCHAR(15),
   `birth` DATE NOT NULL,
   `bpoint` INT,
   `age` INT,
