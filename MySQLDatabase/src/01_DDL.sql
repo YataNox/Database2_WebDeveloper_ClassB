@@ -34,7 +34,7 @@ select * from scott.booklist;
 -- 연습 문제.
 -- 아래의 필드명을 담은 memberlist 테이블을 생성하세요
 -- 필드명 : membernum(int, 자동 증가, 기본키), name(varchar(30), not null)
---			   Birth(date, not null), bpoint(int), age(int), gender(varchar(3)),
+--			   Birth(date, not null), bpoint(int), joindate(date, 기본값 now()), age(int), gender(varchar(3)),
 -- 테이블 comment : 회원 목록
 -- 기본 문자set : utf-8mb4
 -- 워크 벤치에서 테이블 생성하는 명령을 복사해오셔도 됩니다.
@@ -49,3 +49,7 @@ CREATE TABLE `scott`.`memberlist` (
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4
 COMMENT = '회원 목록';
+
+ALTER TABLE `scott`.`memberlist` 
+ADD COLUMN `joindate` datetime NULL DEFAULT now(),
+CHANGE COLUMN `bpoint` `bpoint` INT NULL DEFAULT 0 ;
