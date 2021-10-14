@@ -7,13 +7,13 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class DBManager {
-	static String driver = "com.mysql.cj.jdbc.Driver'";
+	static String driver = "com.mysql.cj.jdbc.Driver";
 	static String url = "jdbc:mysql://localhost:3306/scott";
 	
 	static String id = "root";
 	static String pw = "adminuser";
 	
-	public static Connection getConnection() {
+	public Connection getConnection() {
 		Connection con = null;
 		
 		try {
@@ -28,7 +28,7 @@ public class DBManager {
 		return con;
 	}
 	
-	public static void close(Connection con, PreparedStatement pstmt, ResultSet rs) {
+	public void close(Connection con, PreparedStatement pstmt, ResultSet rs) {
 		try {					
 			if(con != null)
 				con.close();
