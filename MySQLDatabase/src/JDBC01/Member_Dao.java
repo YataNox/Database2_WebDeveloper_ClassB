@@ -51,5 +51,29 @@ public class Member_Dao {
 		dbm.close(con, pstmt, rs);
 		return list;
 	}
+
+	public int insert(Member_Dto mdto) {
+		int result = 0;
+		con = dbm.getConnection();
+		
+		String sql = "insert into scott.memberlist(name, phone, birth, gender, age)"
+				+ " value(?, ?, str_to_date(concat('', ?, ''), '%Y%m%d'), ?, ?)";
+		
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, mdto.getName());
+			pstmt.setString(2, mdto.getPhone());
+			pstmt.setString(3, mdto.getBirth());
+			pstmt.setString(4, mdto.getGender());
+			pstmt.setInt(5, mdto.getAge());
+			
+			result = pstmt.executeUpdate();
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+		
+		dbm.close(con, pstmt, rs);
+		return result;
+	}
 }
 

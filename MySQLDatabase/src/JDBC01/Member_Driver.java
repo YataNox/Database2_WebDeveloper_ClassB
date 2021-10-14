@@ -1,6 +1,7 @@
 package JDBC01;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Scanner;
 
 public class Member_Driver
@@ -52,7 +53,8 @@ public class Member_Driver
 	}
 
 	private static void delete(Scanner sc) {
-		
+		//alter table 테이블명 auto_increment = 정수값;
+
 		
 	}
 
@@ -78,7 +80,46 @@ public class Member_Driver
 	}
 
 	private static void insert(Scanner sc) {
+		Member_Dao mdao = Member_Dao.getInstance();
+		Member_Dto mdto = new Member_Dto();
 		
+		System.out.print("회원 이름을 입력하세요 : ");
+		mdto.setName(sc.nextLine());
 		
+		System.out.print("핸드폰 번호를 입력하세요 : ");
+		mdto.setPhone(sc.nextLine());
+		
+		System.out.print("생일을 입력하세요 : ");
+		mdto.setBirth(sc.nextLine());
+
+		Calendar today = Calendar.getInstance();
+		int year = Integer.parseInt(String.valueOf(today.get(Calendar.YEAR)));
+		int age = Integer.parseInt(mdto.getBirth().substring(0,4));
+		year = year - age + 1;
+		mdto.setAge(year );
+		
+		System.out.print("보유 포인트를 입력하세요 : ");
+		mdto.setBpoint(Integer.parseInt(sc.nextLine()));
+		
+		while(true)
+		{
+			System.out.print("성별을 입력하세요 : ");
+			String gender = sc.nextLine();
+			if(gender.equals("M") || gender.equals("F"))
+			{
+				mdto.setGender(gender);
+				break;
+			}
+			else {
+				System.out.println("M(남성) 혹은 F(여성)만 입력 가능합니다.");
+			}
+		}
+		
+		int result = mdao.insert(mdto);
+		
+		if(result == 1)
+			System.out.println("삽입 성공");
+		else
+			System.out.println("삽입 실패");
 	}
 }
