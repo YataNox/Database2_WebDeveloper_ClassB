@@ -82,6 +82,23 @@ public class Member_Dao {
 		
 		String sql = "delete from scott.memberlist where membernum = ?";
 		
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, Integer.parseInt(num));
+			result = pstmt.executeUpdate();
+			
+			sql = "select max(membernum) as membernum from scott.memberlist";
+			pstmt = con.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+
+			while(rs.next()) {
+				sql = "alter table scott.memberlist auto_increment = " + (rs.getInt("membernum")+1);
+				pstmt = con.prepareStatement(sql);
+				pstmt.execute();
+			}
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
 		
 		dbm.close(con, pstmt, rs);
 		return result;

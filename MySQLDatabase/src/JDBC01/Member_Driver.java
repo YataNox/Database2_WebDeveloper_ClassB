@@ -53,7 +53,6 @@ public class Member_Driver
 	}
 
 	private static void delete(Scanner sc) {
-		//alter table 테이블명 auto_increment = 정수값;
 		Member_Dao mdao = Member_Dao.getInstance();
 		System.out.print("삭제할 회원번호를 입력하세요 : ");
 		String num =  sc.nextLine();
