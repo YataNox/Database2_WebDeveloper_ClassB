@@ -54,12 +54,97 @@ public class Member_Driver
 
 	private static void delete(Scanner sc) {
 		//alter table 테이블명 auto_increment = 정수값;
-
+		Member_Dao mdao = Member_Dao.getInstance();
+		System.out.print("삭제할 회원번호를 입력하세요 : ");
+		String num =  sc.nextLine();
+		
+		int result = mdao.delete(num);
+		
+		if(result == 1)
+			System.out.println("삭제 성공");
+		else
+			System.out.println("삭제 실패");
 		
 	}
 
 	private static void update(Scanner sc) {
+		Member_Dao mdao = Member_Dao.getInstance();
+		String num;
+		int result = 0;
 		
+		while(true)
+		{
+			System.out.print("수정할 회원번호를 입력하세요 : ");
+			num = sc.nextLine();
+			if(num.equals(""))
+				System.out.println("회원번호 입력은 필수입니다.");
+			else 
+				break;
+		}
+		
+		Member_Dto oldDto = mdao.getDto(num);
+		
+		if(oldDto == null)
+		{
+			System.out.println("해당 회원이 없습니다.");
+			return;
+		}
+		
+		Member_Dto newDto = new Member_Dto();
+		newDto.setMembernum(oldDto.getMembernum());
+		
+		System.out.print("수정할 이름을 입력하세요 : ");
+		String name = sc.nextLine();
+		if(name.equals(""))
+			newDto.setName(oldDto.getName());
+		else
+			newDto.setName(name);
+		
+		System.out.print("수정할 핸드폰번호를 입력하세요 : ");
+		String phone = sc.nextLine();
+		if(phone.equals(""))
+			newDto.setPhone(oldDto.getPhone());
+		else
+			newDto.setPhone(phone);
+		
+		System.out.print("수정할 생일을 입력하세요 : ");
+		String input = sc.nextLine();
+		if(input.equals(""))
+		{
+			newDto.setBirth(oldDto.getBirth());
+			newDto.setAge(oldDto.getAge());
+		}
+		else
+		{
+			newDto.setBirth(input);
+			// 바뀐 생일에 따른 나이 변화
+			Calendar d = Calendar.getInstance(); // 올해 날짜
+			int age = Integer.parseInt(String.valueOf(d.get(Calendar.YEAR))) - Integer.parseInt(input.substring(0,4)) + 1;
+			newDto.setAge(age);
+		}
+		
+		newDto.setJoindate(oldDto.getJoindate());
+		
+		System.out.print("수정할 포인트를 입력하세요 : ");
+		String bpoint = sc.nextLine();
+		if(bpoint.equals(""))
+			newDto.setBpoint(oldDto.getBpoint());
+		else
+			newDto.setBpoint(Integer.parseInt(bpoint));
+		
+		System.out.print("수정할 성별을 입력하세요 : ");
+		String gender = sc.nextLine();
+		if(gender.equals(""))
+			newDto.setGender(oldDto.getGender());
+		else
+			newDto.setGender(gender);
+		
+		result = mdao.update(newDto);
+		
+		if(result == 1)
+			System.out.println("수정 성공");
+		else
+			System.out.println("수정 실패");
 		
 	}
 

@@ -75,5 +75,75 @@ public class Member_Dao {
 		dbm.close(con, pstmt, rs);
 		return result;
 	}
+
+	public int delete(String num) {
+		int result = 0;
+		con = dbm.getConnection();
+		
+		String sql = "delete from scott.memberlist where membernum = ?";
+		
+		
+		dbm.close(con, pstmt, rs);
+		return result;
+	}
+
+	public Member_Dto getDto(String num) {
+		Member_Dto mdto = null;
+		con = dbm.getConnection();
+		
+		String sql = "select membernum, name, phone, date_format(birth, '%Y-%m-%d') as birth,"
+				+ " date_format(joindate, '%Y-%m-%d') as joindate, gender, age, bpoint "
+				+ " from scott.memberlist where membernum = ?";
+		
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, Integer.parseInt(num));
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				mdto = new Member_Dto();
+				mdto.setMembernum(rs.getInt("membernum"));
+				mdto.setName(rs.getString("name"));
+				mdto.setPhone(rs.getString("phone"));
+				mdto.setBirth(rs.getString("birth"));
+				mdto.setJoindate(rs.getString("joindate"));
+				mdto.setGender(rs.getString("gender"));
+				mdto.setAge(rs.getInt("age"));
+			}
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+		
+		dbm.close(con, pstmt, rs);
+		return mdto;
+	}
+
+	public int update(Member_Dto newDto) {
+		int result = 0;
+		con = dbm.getConnection();
+		String sql = "update scott.memberlist set name=?, phone=?,"
+				+ " birth=str_to_date(concat('', ?, ''), '%Y%m%d'),"
+				+ " joindate=str_to_date(concat('', ?, ''), '%Y-%m-%d'),"
+				+ " bpoint=?, gender=?, age=? where membernum=?";
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, newDto.getName());
+			pstmt.setString(2, newDto.getPhone());
+			pstmt.setString(3, newDto.getBirth());
+			pstmt.setString(4, newDto.getJoindate());
+			pstmt.setInt(5, newDto.getBpoint());
+			pstmt.setString(6, newDto.getGender());
+			pstmt.setInt(7, newDto.getAge());
+			pstmt.setInt(8, newDto.getMembernum());
+			
+			result = pstmt.executeUpdate();
+			
+		}catch(SQLException e){
+			e.printStackTrace();
+		}
+		
+		dbm.close(con, pstmt, rs);
+		return result;
+	}
 }
 
